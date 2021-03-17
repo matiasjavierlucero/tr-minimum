@@ -1,0 +1,34 @@
+{% extends "appbuilder/base.html" %}
+
+{% block content %}
+{{inca.canalInca}}
+    <form action="/guardarincaedit/{{inca.idInca}}" method='POST'>
+        <div class="form-group">
+            <label for="">canal</label>
+            <input type="hidden" name="id" value="{{inca.idInca}}">
+            <input type="text" class="form-control" name="canal" value="{{inca.canalInca}}" required>
+        </div>
+        <div class="form-group">
+            <label for="">Alias</label>
+            <input type="text" class="form-control" name="alias" value="{{inca.aliasInca}}" required>
+        </div>
+        <div class="form-group">
+            <label for=""> ch4 </label>
+            <input type="text" class="form-control" name="ch4" value="{{inca.ch4Inca}}"required>
+        </div>
+        <div class="form-group">
+            <label for=""> co2 </label>
+            <input type="text" class="form-control" name="co2" value="{{inca.co2Inca}}"required>
+        </div>
+        <div class="form-group">
+            <label for=""> o2</label>
+            <input type="text" class="form-control" name="o2" value="{{inca.o2Inca}}"required>
+        </div>
+        <div class="form-group">
+            <label for=""> h2s</label>
+            <input type="text" class="form-control" name="h2s" value="{{inca.h2s}}" placeholder="{{inca.h2s}}"required>
+        </div>
+            <button  class="btn btn-primary" type="submit">Actualizar</button>
+        </div>
+    </form>
+{% endblock %}

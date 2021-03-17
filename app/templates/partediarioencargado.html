@@ -1,0 +1,73 @@
+{% extends "appbuilder/base.html" %}
+<div class="container" style="margin-left:10px">
+    <div class="row" style="margin-left:10px">
+        <div class="col-lg-12" style="margin-left:10px">
+            {% with messages = get_flashed_messages(with_categories = true ) %} {% if messages %} {% for category, message
+            in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible" role="alert" style="height: 20px; padding: 0px;margin: 2px;">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" >&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endfor %} {% endif %}{% endwith %}
+</div>
+
+
+{% block content %}
+<div class="container">
+    
+<div class="row">
+<div class="col-lg-12" style="margin-left:10px">
+    <div class="panel panel-primary ">
+        <div class="panel-heading">
+            <h4 class="panel-title">Parte Diario Encargado</h4>
+        </div>
+        <div class="panel-body">
+            <div>
+                <form action="/guardarParteDiarioEncargado" method="post">
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col-lg-4">
+                            <label for="fechaParteDiarioEncargado">Fecha:</label>
+                            <input type="date" id="fechaParteDiarioEncargado" name="fechaParteDiarioEncargado" class="form-control mb-4" required>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="idUsuarioOP">Valores obtenidos por :</label>
+                            <select name="idUsuarioOP" id="idUsuarioOP" class="form-control mb-4" >
+                                {%for usuario in usuariosplanta%}
+                                <option value="{{usuario.id}}">{{usuario.first_name}}, {{usuario.last_name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="col-lg-4 text-center">
+                            <label for="">Todos los registros</label><br>
+                            <a href="/parteencargadoview/list/"><button type="button" class="btn btn-secondary"> Ver</button></a>
+                        </div>
+                    </div>
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col-lg-8">
+                            <label for="ObservacionesParteDiarioEncargado">Observaciones</label>
+                            <br>
+                            <textarea name="ObsParteDiarioEncargado" id="ObservacionesParteDiarioEncargado" cols="85" rows="4" required>
+    
+                            </textarea>
+                            <button type="submit" class="btn btn-primary" >
+                                Guardar
+                            </button>
+                        </div>
+                        
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+
+
+

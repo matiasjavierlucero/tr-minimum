@@ -1,0 +1,191 @@
+{% extends "appbuilder/base.html" %}
+
+{% block content %}
+
+    
+
+<div class="container"> 
+<div class="row">
+<div class="col-lg-12" style="margin-left:10px">
+    <div class="panel panel-primary ">
+        <div class="panel-heading" style="height:50px">
+            <div class="col-lg-10">
+                <h4 class="panel-title">Incremento Campaña</h4>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+            <form action="/guardarincremento" method="post" onsubmit = "if(document.getElementById('seleccioneusuario').value==='x') {alert('Por Favor Seleccione un Usuario'); return false}">
+                <input type="text" name="idCampania" class="d-none" id="idCampania" value="{{idCampania}}" style="display: none;">
+                <div class="col-lg-4">
+                    <label for="idcampania">Seleccione una Campania</label>
+                    <select name="" id="" class="form-control"  disabled>            
+                        <option value="{{campanias.idCampania}}">{{campanias.nombreCampania}}</option>    
+                    </select>
+                </div>
+                
+                <div class="col-lg-1">
+                    <label for="" style="color:white">Seleccionar</label>
+                    <a href="/campaniaview/list/" class="btn btn-info">Cambiar Campaña</a>
+                </div>          
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-lg-2">
+                    <label for="">Fecha del Incremento</label>
+                    <input type="date" name="fechaIncremento" id="fecha" class="form-control" required >
+                </div>
+                <div class="col-lg-2">
+                    <label for="">Usuario Responsable</label>
+                    
+                    <select name="idUsuarioM" id="seleccioneusuario" class="form-control">
+                        <option value="x" >Seleccione un Usuario</option>
+                        {%for usuario in usuarios %}
+                            <option value="{{usuario.id}}">{{usuario.last_name}}, {{usuario.first_name}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-lg-4">
+                    <label for="">Sustratos</label>
+                </div>
+            </div>
+            {%for sustrato in sustratoscampania %}
+            <div class="row">
+                <div class="col-lg-3">
+                    <br>
+                    <label for="">{{sustrato.Sustrato.nombreSustrato}}</label>
+                </div>
+                <div class="col-lg-2">
+                    <label for="">Deposito</label>
+                        <input type="number" name="deposito{{sustrato.Incremcampania.idSustrato}}" id="deposito{{sustrato.Incremcampania.idSustrato}}" value="" placeholder="Selecione Fecha" class="form-control" disabled>
+                </div>
+                <div class="col-lg-2">
+                    <label for="">Incremento</label>
+                    <input type="number" name="incremento{{sustrato.Incremcampania.idSustrato}}" id="" value="0" class="form-control" required>
+                </div>
+                <div class="col-lg-2">
+                    <label for="">Valor</label>
+                    <input type="number" name="valor{{sustrato.Incremcampania.idSustrato}}" id="" value="0" class="form-control" required>
+                </div>
+                <div class="col-lg-2">
+                    <label for="">Carga Teorica</label>
+                    <input type="number" name="cargateorica{{sustrato.Incremcampania.idSustrato}}" id="" value={{sustrato.Incremcampania.cargatecnicaIncremcampania}} class="form-control" required>
+                </div>
+            </div>
+            {%endfor%}
+            <br><br>
+            <div class="row">
+                <div class="col-lg-2">
+                    <button class="form-control btn btn-success" type="submit">Cargar Incremento</button>
+                </div>
+                <div class="col-lg-2">
+                    <a href="/campaniaview/list/" class="form-control btn btn-danger" style="color: white;">Cancelar</a>
+                </div>
+                <div class="col-lg-5">
+
+                </div>
+                <div class="col-lg-3">
+                    <!-- Button trigger modal -->
+                    <a class="btn btn-primary" data-toggle="modal" href='#modalNuevoSustrato'>Ingresar Nuevo Sustrato</a>
+                </div>
+            </div>
+            <br>
+            
+        </form>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- MODALES -->
+    <div class="modal fade" id="modalNuevoSustrato">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Nuevo Sustrato para la Campaña</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <form action="/guardarnuevosustratocampania" method="post">
+                        <div class="col-lg-4">
+                            <label for="sustratonuevo">
+                                Nuevo Sustrato para la Campaña
+                            </label>
+                            <select name="sustratonuevo" id="sustratonuevo" class="form-control" >
+                                {%for sustrato in allSustratos%}
+                                    <option value="{{sustrato.idSustrato}}">{{sustrato.nombreSustrato}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="usuarioSustratoNuevo">
+                                Usuario Responsable
+                            </label>
+                            <select name="usuarioSustratoNuevo" id="usuarioSustratoNuevo" class="form-control" >
+                                {%for usuario in usuarios %}
+                                    <option value="{{usuario.id}}">{{usuario.last_name}}, {{usuario.first_name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .check {
+width:30px;
+height:30px;
+}
+</style>
+
+<script>
+        $("#fecha").change(()=>{
+            fecha=($("#fecha").val())
+            console.log("Restantes")
+            $.ajax({
+                    url: '/restantes',
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify([{
+                        'fecha': fecha,
+                        'idCampania':$("#idCampania").val()
+                    }]),
+                    success: function (data) {
+                        if(data.Mensaje=='Incorrecto'){
+                            alert("La fecha seleccionada no puede ser anterior a la fecha del ultimo incremento "+data.FechaInicio)
+
+                        }
+                        
+                        if(data.Mensaje=="Error"){
+                            window.location.reload()
+                        }else{
+                            
+                        }
+                        if (data.Mensaje == 'Correcto') {
+                            //console.log(data.Valores)
+                            $.map(data.Valores,function(key,value){
+                                console.log(key);
+                                console.log(value)
+                                console.log(document.getElementById(value).value=key)
+                            });
+                        }
+                }
+            })
+        });
+</script>
+{% endblock %}
+

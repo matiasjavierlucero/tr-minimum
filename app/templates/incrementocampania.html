@@ -1,0 +1,47 @@
+{% extends "appbuilder/base.html" %}
+
+{% block content %}
+
+    
+
+<div class="container"> 
+<div class="row">
+<div class="col-lg-12" style="margin-left:10px">
+    <div class="panel panel-primary ">
+        <div class="panel-heading" style="height:50px">
+            <div class="col-lg-10">
+                <h4 class="panel-title">Incremento Campaña</h4>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Campaña</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {%for campania in campanias%}
+                        <tr>
+                            <td><a href="/cargarincrementocampaniaid/{{campania.idCampania}}">{{campania.nombreCampania}}</a></td>
+                        </tr>
+                        {%endfor%}    
+                    </tbody>
+                </table>
+                
+            </div>
+            
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<style>
+    .check {
+width:30px;
+height:30px;
+}
+</style>
+{% endblock %}

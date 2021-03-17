@@ -1,0 +1,221 @@
+{% extends "appbuilder/base.html" %}
+{% block content %}
+<div class="container"> 
+    
+
+    <div class="row">
+    <div class="col-lg-12" style="margin-left:10px">
+        <div class="panel panel-primary ">
+            <div class="panel-heading" style="height:50px">
+                <div class="col-lg-10">
+                    <h4 class="panel-title">Programar Carga</h4>
+                </div>
+                <div class="col-lg-2">
+                </div>
+            </div>
+            <div class="panel-body">
+                <form action="/guardarprogramacarga" method="post">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="">Desde</label>
+                        <input type="date" name="fechaInicio" id="fechaInicio" class="form-control" required onChange="verificarFechas()">
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="">Hasta</label>
+                        <input type="date" name="fechaFinal" id="fechaFinal" class="form-control" required onChange="verificarFechas()">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="">Tecnico</label>
+                        <select name="Tecnico" id="Tecnico" class="form-control">
+                          <option value="x">
+                              Seleccione un Técnico
+                          </option>  
+                          {% for usuario in usuarios %}
+                            <option value="{{usuario.id}}">{{usuario.last_name}}, {{usuario.first_name}}</option>
+                          {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <label for="Digestor">Digestor</label>
+                            <select name="Digestor0" id="selectDigestor0" class="form-control" onchange=buscarsustratos(this.value,0) required>
+                                <option value="x">Seleccione un Digestor</option>
+                                {%for ds in digestores%}
+                                <option value="{{ds.idPlantaequipo}}">
+                                    {{ds.nombrePlantaequipo}}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="Sustrato">Sustrato</label>
+                            <select name="SustratoDigestor0" id="SustratoDigestor0" class="form-control" required onchange=buscarRepetidos() onsubmit="if(document.getElementById('SustratoDigestor0').value=='z'){alert('Por Favor Seleccione un Sustrato');return false};">
+                                {%for sustrato in sustratos%}
+                                <option value="{{sustrato.idSustrato}}">
+                                    {{sustrato.nombreSustrato}}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="valor">Valor:</label>
+                            <input type="number" name="Valor0" id="" class="form-control" required>
+                        </div>
+                    </div>
+                    <div id="nuevossustratos">
+            
+                    </div>
+                    <div id="cantidadsustratos">
+                        <input type="text" class="form-control"  name="cantidad" id="cantidad" value=0 style="display: none">
+                    </div>
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col-lg-2">
+                            <button type="button" class="btn btn-info" id="agregarsustrato" onclick='agregarlinea()'>Agregar Sustrato</button>
+                        </div>
+                        <div class="col-lg-7">
+                            
+                        </div>
+                        <div class="col-lg-2">
+                            <button type="submit" class="btn btn-success">Finalizar Carga</button>
+                            <p id="mensajeRepetido" hidden>Existen combinaciones repetidas </p>
+                        </div>
+                    </div>  
+                </form>  
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+   
+
+
+    <script>
+       /*  function buscarsustratos(idDigestor,num){
+            $.ajax({
+                    url: '/buscarSustratos',
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify([{
+                        'idPlantaequipo': idDigestor,
+                    }]),
+                    success: function (data) {
+                        if (data.Mensaje == 'Correcto') {
+                            SustratosSolidos=data.SustratosSolidos;
+                            listadodesustratos='<option value="z">Seleccione un Sustrato</option>'
+                            SustratosSolidos.forEach(element => {
+                                listadodesustratos=listadodesustratos+'<option value="'+element[0]+'" >'+element[1]+'</option>'
+                            }); 
+                            document.getElementById('SustratoDigestor'+num).innerHTML=listadodesustratos
+                    }else{
+                        alert("La fecha seleccionada no puede ser anterior a la fecha del ultimo incremento "+data.FechaInicio)
+                    }
+                }
+            })
+        } */
+
+    contador=1
+    cantidad=0
+    list=[0]
+    cantidad= document.getElementById('cantidadsustratos')
+
+    function agregarlinea (){
+        const padre= document.getElementById('nuevossustratos')
+        const nuevalinea=document.createElement("div")
+        
+        linea=`
+        <div class="row" style="margin-top:10px" id="linea`+contador+`">
+                        <div class="col-lg-3">
+                            <select name="Digestor`+contador+`" id="selectDigestor`+contador+`" class="form-control" onchange=buscarsustratos(this.value,`+contador+`) required>
+                                {%for ds in digestores%}
+                                <option value="{{ds.idPlantaequipo}}">
+                                    {{ds.nombrePlantaequipo}}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="col-lg-3" >
+                            <select name="SustratoDigestor`+contador+`" id="SustratoDigestor`+contador+`" class="form-control" onchange=buscarRepetidos() required >
+                                {%for sustrato in sustratos%}
+                                <option value="{{sustrato.idSustrato}}">
+                                    {{sustrato.nombreSustrato}}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="col-lg-3" >
+                            <input type="number" name="Valor`+contador+`" id="" class="form-control" required>
+                        </div>
+                        <div class="col-lg-1">
+                            
+                            <button type="button" class="btn btn-danger" id="agregarsustrato" onclick='quitarlinea(`+contador+`)'>x</button>
+                        </div>
+                </div>`
+        
+        nuevalinea.innerHTML=linea
+        list.push(contador)
+        padre.appendChild(nuevalinea)
+        //Creo un input donde por valor tiene la cantidad de sustratos que se crearon, ya que luego debo recorrer la lista
+        cantidad.innerHTML=`<input type="text" class="form-control"  name="cantidad"id="cantidad" value=`+list.toString()+` style="display: none">`
+        contador++
+        
+    }
+
+    function quitarlinea (id){
+        linea='linea'+String(id)+''
+        quitar=document.getElementById(linea.toString())
+        quitar.parentNode.removeChild(quitar)
+        index = list.indexOf(id);
+        if (index > -1) {
+            list.splice(index, 1);
+            cantidad.innerHTML=`<input type="text" class="form-control"  name="cantidad" value=`+list.toString()+` style="display: none">`;
+        }
+        
+        }
+    
+
+    
+ 
+    function buscarRepetidos(){
+        conjuntodeindices=[]
+        cantidades=document.getElementById('cantidad').value;
+        listaconjunto=cantidades.split(',')
+        listaconjunto.forEach(element => {
+            idDigestor=document.getElementById('selectDigestor'+element).value;
+            idSustrato=document.getElementById('SustratoDigestor'+element).value
+            conjunto=(idDigestor+'-'+idSustrato)
+            busqueda = conjuntodeindices.includes(conjunto) 
+            if (busqueda==true){
+                alerta=1
+                $('#SustratoDigestor'+element).attr({'style':'border:red 1px solid'})
+            }else{
+                alerta=0
+            }
+            conjuntodeindices.push(conjunto)    
+        });
+        if (alerta==1){
+            alert("Existe una o más combinaciones repetidas, por favor verfique la informacíon y vuelva a intentarlo")
+        }
+    }
+
+    function verificarFechas(){
+        inicio=document.getElementById('fechaInicio').value
+        fin=document.getElementById('fechaFinal').value
+
+        if (inicio=='' || fin =='' ){
+            //pass
+        }else{
+            if(inicio>fin){
+                alert('La fecha "Desde" no puede ser mayor a la fecha "Hasta", automaticamente la fecha "Desde" cambiara a la más baja')
+                console.log('La Fecha de inicio no puede ser mayor a la del final, por favor corrijala')
+                $('#fechaInicio').val(fin);
+            }
+        }
+
+    }
+    </script>
+    
+{%endblock%}

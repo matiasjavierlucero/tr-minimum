@@ -1,0 +1,15 @@
+{% extends "appbuilder/general/model/add.html" %}
+
+    {% block add_form %}
+        {{ super() }}  
+    {% endblock %}
+
+{% block tail_js %}
+    {{ super() }}
+
+
+    <script>
+      $("#areasPlanta").html('<option value="1" selected>Comercial</option><option value="2" selected>Tecnica</option><option value="3" selected>Operativa</option>');
+      $("#areasPlanta").css({"display": "none"});
+  </script>
+{% endblock %}

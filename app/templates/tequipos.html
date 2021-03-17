@@ -1,0 +1,134 @@
+{% extends "appbuilder/base.html" %}
+
+<div class="container" style="margin-left:10px">
+    <div class="row" style="margin-left:10px">
+        <div class="col-lg-12" style="margin-left:10px">
+            {% with messages = get_flashed_messages(with_categories = true ) %} {% if messages %} {% for category, message
+            in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible" role="alert" style="height: 20px; padding: 0px;margin: 2px;">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" >&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endfor %} {% endif %}{% endwith %}
+</div>
+
+
+{% block content %}
+<div class="container">    
+  <div class="row">
+    <div class="col-lg-12" style="margin-left:10px">
+        <div class="panel panel-primary ">
+          <div class="panel-heading" style="height:50px">
+            <div class="col-lg-10">
+              <h4 class="panel-title">Tipos de Equipos de la Planta</h4>
+            </div>
+            <div class="col-lg-2" id="crearequipo">
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modelId" style="margin-top: 0px;" >Crear Nuevo Equipo</button>
+            </div>
+        </div>
+            <div class="panel-body">
+              <ul class="list-group">
+                {% for tequipo in tequipos %}
+                <div class="col-lg-3">
+                  <div class="card">
+                    <div class="card-body panel-primary text-center" id="equipos" style="margin:10px;padding:5px;border: 1px #337ab7 solid;border-radius:7px" >
+                      <a href="http://{{session['ENTORNO']}}:5000/tequipos_planta/list/{{tequipo.idTipoequipo}}/" id="equipostext" style="font-size:1.6rem;text-decoration: none;">{{tequipo.nombreTipoequipo}}</a> <a href="/eliminartipoequipo/{{tequipo.idTipoequipo}}/" class="fa fa-trash btn btn-danger eliminartipoequipo"  aria-hidden="true" style="align-items: end;display:none"></a>
+                    </div>
+                </div>
+                      
+                  </div>       
+                {% endfor %}
+                <div class="row">
+                  <div class="col-lg-10"></div>
+                  <div class="col-lg-2" style="display: flex;flex-direction: row; padding-left: 5px;">
+                    <div class="btn btn-danger" onclick="habilitaeliminar()" style="margin-right: 5px;">Eliminar</div>
+                    <div class="btn btn-info" onclick="cancelarEliminar()" id="cancelareliminar" style="display: none;">Cancelar</div>
+                  </div>
+                </div>
+              </ul>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header panel-primary" style="background-color:#337ab7;color:white;">
+            <h5 class="modal-title ">Nuevo Tipo de Equipo</h5>
+          </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+         <input type="text" name="tipodeequipo" class="form-control" id="nuevotipoequipo" placeholder="Nombre de Tipo de Equipo">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary"  onclick="guardarTipoEquipo()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+function guardarTipoEquipo(){
+nombre=$("#nuevotipoequipo").val()
+console.log(nombre)
+$.ajax({
+                    url: '/NuevoTipoEquipo',
+                    type: 'post',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    data: JSON.stringify([{
+                        'nombre': nombre,
+                        
+                    }]),
+                    success: function (data) {
+                        if (data.Mensaje == 'Correcto') {
+                           window.location.reload()
+                    }
+                }
+            })
+          }
+
+function habilitaeliminar(){
+  $(".eliminartipoequipo").css({'display':''})
+  $("#cancelareliminar").css({'display':''})
+
+}
+
+function cancelarEliminar(){
+  $(".eliminartipoequipo").css({'display':'none'})
+  $("#cancelareliminar").css({'display':'none'})
+}
+
+
+</script>
+
+
+
+<style>
+  #equipos:hover{
+    background-color:#337ab7;
+    color:white
+  }
+
+  #equipos:hover a{
+    color:white;
+  }
+
+  #crearequipo:hover a{
+    font-weight:bold;
+  }
+
+</style>
+
+{% endblock %}

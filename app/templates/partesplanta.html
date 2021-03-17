@@ -1,0 +1,70 @@
+{% extends "appbuilder/base.html" %}
+{% block content %}
+<div class="container"> 
+    <div class="row">
+    <div class="col-lg-12" style="margin-left:10px">
+        <div class="panel panel-primary ">
+            <div class="panel-heading" style="height:50px">
+                <div class="col-lg-10">
+                    <h4 class="panel-title">Partes Planta</h4>
+                </div>
+                <div class="col-lg-2">
+                    <a href="/cargarparteoperario" style="color:white">Ir a la carga de partes    
+                        
+                    </a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div>                    
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>#</th>
+                                    <th>Fecha Parte</th>
+                                    <th>Turno</th>
+                                    <th>Operario</th>
+                                    <th>Observaciones</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for parte in partes%}
+                                <tr>
+                                    <td>
+                                        <center>
+                                            <div class="btn-group btn-group-xs" style="display: flex;">
+                                            <a href="/parteoperario/show/{{parte.idParteoperario}}" class="btn btn-sm btn-default" data-toggle="tooltip" rel="tooltip" title="" data-original-title="Mostrar registro">
+                                                <i class="fa fa-search"></i>
+                                            </a>
+                                            <a href="/parteoperario/edit/{{parte.idParteoperario}}" class="btn btn-sm btn-default " data-toggle="tooltip" rel="tooltip" title="" data-original-title="Editar registro">
+                                                <i class="fa fa-edit"></i>
+                                            </a>
+                                            <a href="/parteoperario/delete/{{parte.idParteoperario}}" class="btn btn-sm btn-default confirm" rel="tooltip" title="">
+                                                <i class="fa fa-eraser"></i>
+                                            </a>    
+                                            </div>
+                                        </center>
+                                    </td>
+                                   
+                                    <td>{{parte.idParteoperario}}</td>
+                                    <td>{{parte.fechaParteoperario}}</td>
+                                    <td>{{parte.posNumturno}}</td>
+                                    <td>{{parte.first_name}}, {{parte.last_name}}</td>
+                                    <td>{{parte.obsParteoperario}}</td>
+                                </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+{%endblock%}

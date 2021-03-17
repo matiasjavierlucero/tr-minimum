@@ -1,0 +1,169 @@
+{% extends "appbuilder/base.html" %}
+
+{% block content %}
+
+    
+
+<div class="container"> 
+<div class="row">
+<div class="col-lg-12" style="margin-left:10px">
+    <div class="panel panel-primary ">
+        <div class="panel-heading" style="height:50px">
+            <div class="col-lg-10">
+                <h4 class="panel-title">Nueva Campaña</h4>
+            </div>
+            <div class="col-lg-2">
+                <!-- <a href="/planusuaview/list/" style="color:white"><h4 class="panel-title"><i class="fa fa-search"></i>Ver Activos </h4>    
+                    
+                </a> -->
+            </div>
+        </div>
+        <div class="panel-body">
+            <form action="/guardarnuevacampania" method="post" onsubmit = "if(document.getElementById('idSustrato').value=='x') {alert('Por Favor Seleccione un Sustrato'); return false}">
+            <div class="row " style="margin-left:10px;margin-top:10px">
+                <div class="col-lg-4">
+                    <label for="fechaParteDiarioEncargado">Fecha:</label>
+                    <input type="date" id="fechaCreacion" name="fechaCreacion" class="form-control mb-4" required>
+                </div>
+                <div class="col-lg-4">
+                    <label for="idUsuarioOP">Usuario Campaña :</label>
+                    <select name="idUsuarioR" id="idUsuarioR" class="form-control mb-4" >
+                        {%for usuario in usuarios%}
+                        <option value="{{usuario.id}}">{{usuario.first_name}}, {{usuario.last_name}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+           </div>
+           <div class="row " style="margin-left:10px;margin-top:10px">
+           <div class="col-lg-4">
+            <label for="nombreCampania">Nombre Campaña :</label>
+            <input type="text" class="form-control" name="nombreCampania">
+        </div>
+    </div>
+           <div class="row " style="margin-left:10px;margin-top:10px">
+                <div class="col-lg-3">
+                    <label for="idSustrato">Sustrato :</label>
+                    <select name="idSustrato0" id="idSustrato" class="form-control mb-4" required>
+                        <option value='x'>Seleccione un Sustrato</option>
+                        {%for sustrato in sustratos%}
+                        <option value="{{sustrato.idSustrato}}">{{sustrato.nombreSustrato}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="col-lg-2">
+                    <label for="idUsuarioOP">Restante :</label>
+                    <input type="text" class="form-control" name="restante0" required>
+                </div>
+                <div class="col-lg-2">
+                    <label for="idUsuarioOP">Cosechado :</label>
+                    <input type="text" class="form-control" name="cosechado0" required>
+                </div>
+                <div class="col-lg-2">
+                    <label for="idUsuarioOP">USD/t :</label>
+                    <input type="text" class="form-control" name="valor0" required>
+                </div>
+                <div class="col-lg-2">
+                    <label for="idUsuarioOP">Carga Teorica :</label>
+                    <input type="text" class="form-control" name="cargateorica0" required>
+                </div>
+            </div>
+
+            <div id="nuevossustratos">
+                
+            </div>
+            <div id="cantidadsustratos">
+                <input type="text" class="form-control"  name="cantidad" value=0 style="display: none">
+            </div>
+            <div class="row " style="margin-left:10px;margin-top:10px">
+                <div class="col-lg-2">
+                    <button type="button" class="btn btn-info" id="agregarsustrato" onclick='agregarlinea()'>Agregar Sustrato</button>
+                </div>
+                <div class="col-lg-7">
+                    
+                </div>
+                <div class="col-lg-2">
+                    <button type="submit" class="btn btn-success">Finalizar Carga</button>
+                </div>
+            </div>
+        </form>
+            
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+<script>
+    contador=1
+    cantidad=0
+    list=[0]
+    cantidad= document.getElementById('cantidadsustratos')
+
+    function agregarlinea (){
+        const padre= document.getElementById('nuevossustratos')
+        const nuevalinea=document.createElement("div")
+        
+        linea=`
+        <div class="row " style="margin-left:10px;margin-top:10px" id="linea`+contador+`" > 
+                <div class="col-lg-3">
+                    <label for="idUsuarioOP">Sustrato :</label>
+                    <select name="idSustrato`+contador+`" id="idSustrato" class="form-control mb-4" required>
+                        {%for sustrato in sustratos%}
+                        <option value="{{sustrato.idSustrato}}">{{sustrato.nombreSustrato}}</option>
+                        {%endfor%}
+                    </select>
+                </div>
+                <div class="col-lg-2">
+                    <label for="idUsuarioOP">Restante :</label>
+                    <input type="text" class="form-control" name="restante`+contador+`" required>
+                </div>
+                <div class="col-lg-2">
+                    <label for="idUsuarioOP">Cosechado :</label>
+                    <input type="text" class="form-control" name="cosechado`+contador+`" required>
+                </div>
+                <div class="col-lg-2">
+                    <label for="idUsuarioOP">USD/t :</label>
+                    <input type="text" class="form-control" name="valor`+contador+`" required>
+                </div>
+                <div class="col-lg-2">
+                    <label for="idUsuarioOP">Carga Teorica :</label>
+                    <input type="text" class="form-control" name="cargateorica`+contador+`" required>
+                </div>
+                <div class="col-lg-1">
+                    <label for="idUsuarioOP" style="color:white">Quitar</label>
+                    <button type="button" class="btn btn-danger" id="agregarsustrato" onclick='quitarlinea(`+contador+`)'>x</button>
+                </div>
+            </div>`
+        
+        nuevalinea.innerHTML=linea
+        list.push(contador)
+        padre.appendChild(nuevalinea)
+        //Creo un input donde por valor tiene la cantidad de sustratos que se crearon, ya que luego debo recorrer la lista
+        cantidad.innerHTML=`<input type="text" class="form-control"  name="cantidad" value=`+list.toString()+` style="display: none">`
+        contador++
+        
+    }
+
+    function quitarlinea (id){
+        linea='linea'+String(id)+''
+        quitar=document.getElementById(linea.toString())
+        quitar.parentNode.removeChild(quitar)
+        
+        index = list.indexOf(id);
+        if (index > -1) {
+            list.splice(index, 1);
+            cantidad.innerHTML=`<input type="text" class="form-control"  name="cantidad" value=`+list.toString()+` style="display: none">`
+        }
+        
+            }
+
+  
+</script>
+
+<style>
+    .check {
+width:30px;
+height:30px;
+}
+</style>
+{% endblock %}

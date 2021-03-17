@@ -1,0 +1,76 @@
+{% extends 'appbuilder/init.html' %}
+{% set menu = appbuilder.menu %}
+
+{% block body %}
+     
+    {% include 'appbuilder/general/confirm.html' %}
+    {% include 'appbuilder/general/alert.html' %}
+
+    {% block navbar %}
+        <header class="top" role="header">
+        {% include 'my_navb.html' %}
+        </header>
+    {% endblock %}
+
+    <div class= container-fluid>
+            <div class="row" style = "display: flex;">
+               
+                <div class="col-lg-12 w-100 text-center">
+                    {% block content %}
+                    <div class="container">
+                        <div class="row">
+                            <div class="col text-center">
+                                <h3>Bienvenido</h3>
+                                <h5>Seleccione una planta</h5>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="container">
+                    <div class="row">
+                        {% for planta in plantasjoin %}
+                        <a href=plantaview/show/{{planta.0}}/ class="col-md-4">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">{{planta.nombrePlanta}}</h4>
+                                </div>
+                                <div class="panel-body">
+                                    <div>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <img src="/static/img/plants_logos/{{planta.logoPlanta}}" alt="" style="height: 250px;">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        {%endfor%}
+                    </div>                           
+                    {% endblock %}
+                </div>
+            </div>
+    </div>
+
+    {% block footer %}
+        <footer>
+        <div class="img-rounded nav-fixed-bottom">
+            <div class="container">
+                {% include 'appbuilder/footer.html' %}
+            </div>
+        </div>
+        </footer>
+    {% endblock %}
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

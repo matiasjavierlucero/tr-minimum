@@ -1,0 +1,135 @@
+{% extends "appbuilder/base.html" %}
+<div class="container" style="margin-left:10px">
+    <div class="row" style="margin-left:10px">
+        <div class="col-lg-12" style="margin-left:10px">
+            {% with messages = get_flashed_messages(with_categories = true ) %} {% if messages %} {% for category, message
+            in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible" role="alert" style="height: 20px; padding: 0px;margin: 2px;">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" >&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endfor %} {% endif %}{% endwith %}
+</div>
+
+
+{% block content %}
+<div class="container">
+    
+<div class="row">
+<div class="col-lg-12" style="margin-left:10px">
+    <div class="panel panel-primary ">
+        <div class="panel-heading">
+            <h4 class="panel-title">Parte Diario Riego</h4>
+        </div>
+        <div class="panel-body">
+            <div>
+                <form action="/guardarParteDiarioRiego" method="post">
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col-lg-3">
+                            <label for="fecha">Fecha:</label>
+                            <input type="date" id="fecha" name="fecha" class="form-control mb-4" required>
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="idUsuarioOP">Turno :</label>
+                            <select name="idNumturno" id="idNumturno" class="form-control mb-4" >
+                                {%for turno in turnos%}
+                                <option value="{{turno.idNumturno}}">{{turno.posNumturno}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="idUsuarioOP">Valores obtenidos por :</label>
+                            <select name="idUsuarioOP" id="idUsuarioOP" class="form-control mb-4" >
+                                {%for usuario in usuarios%}
+                                <option value="{{usuario.id}}">{{usuario.first_name}}, {{usuario.last_name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="col-lg-2 text-center">
+                            <label for="">Todos los registros</label><br>
+                            <a href="/partediarioriegoview/list/"><button type="button" class="btn btn-primary"> Ver </button></a>
+                        </div>
+                    </div>
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col-lg-2">
+                        </div>  
+                        <div class="col-lg-3">
+                            <h4 id="titulos">Solido</h4>
+                        </div>  
+                        <div class="col-lg-3">
+                            <h4 id="titulos">Liquido</h4>
+                        </div>  
+                    </div>
+                    {%for lote in lotes%}
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col-lg-2">
+                            <h4 id="titulos">{{lote.nombreLote}}</h4>
+                        </div>  
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" name="solido_{{lote.idLote}}" id="solido_{{lote.idLote}}" value=0>
+                        </div>  
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" name="liquido_{{lote.idLote}}" id="liquido_{{lote.idLote}}" value=0>
+                        </div>  
+                        <div class="col-lg-1">
+                            <h4 id="titulos">Viajes</h4>
+                        </div>  
+                    </div>
+                    {%endfor%}
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col-lg-2">
+                        </div>  
+                        <div class="col-lg-3">
+                            <h4 id="titulos">Horas</h4>
+                        </div>  
+                        <div class="col-lg-3">
+                            <h4 id="titulos">Litros</h4>
+                        </div>  
+                    </div>
+                    {%for tractor in tractores%}
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col-lg-2">
+                            <h4 id="titulos" >{{tractor.nombrePlantaequipo}}</h4>
+                        </div>  
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" name="horas_{{tractor.idPlantaequipo}}" id="horas_{{tractor.idPlantaequipo}}" value=0>
+                        </div>  
+                        <div class="col-lg-3">
+                            <input type="text" class="form-control" name="litros_{{tractor.idPlantaequipo}}" id="litros_{{tractor.idPlantaequipo}}" value=0>
+                        </div>  
+                    </div>
+                    {%endfor%}    
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col-lg-8">
+                            <label for="ObservacionesParteDiarioEncargado">Observaciones</label>
+                            <br>
+                            <textarea name="Observaciones" id="Observaciones" cols="85" rows="4" required>
+    
+                            </textarea>
+                            <button type="submit" class="btn btn-primary" >
+                                Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+<style>
+    #titulos{
+        font-size: 1.6rem;
+    }
+</style>
+{% endblock %}
+
+
+
+
+

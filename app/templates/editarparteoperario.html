@@ -1,0 +1,184 @@
+{% extends "appbuilder/base.html" %}
+
+{% block content %}
+
+    
+
+<div class="container"> 
+<div class="row">
+<div class="col-lg-12" style="margin-left:10px">
+    <div class="panel panel-primary ">
+        <div class="panel-heading" style="height:50px">
+            <div class="col-lg-10">
+                <h4 class="panel-title">Editar Reporte Operario</h4>
+            </div>
+            <div class="col-lg-2">
+                <a href="/parteoperarioview/list/" style="color:white"><h4 class="panel-title"><i class="fa fa-search"></i>Ver Partes </h4>    
+                    
+                </a>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div>
+                <form action="/guardarCambiosParteOperario/{{datosfijosparte.Parteoperario.idParteoperario}}" method="post">
+                    <div class="row" style="margin-left:10px">
+                        <div class="col-lg-6" >
+                            <div class="form-group row" >
+                                <label for="fechaParteOperario" class="col-form-label col-lg-2 col-sm-12 " >Fecha:</label>
+                                <div class="col-lg-4 col-sm-12">
+                                    <input type="date" name="fechaParteOperario" id="fechaParteOperario" class="form-control" tabindex="1" value={{datosfijosparte.Parteoperario.fechaParteoperario}}>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" >
+                            <div class="form-group row" >
+                                <label for="idUsuarioOP" class="col-form-label col-lg-2 col-sm-12 ">Operario:</label>
+                                <div class="col-lg-4 col-sm-12">
+                                    <select name="idUsuarioOP" id="idUsuarioOP" class="form-control">
+                                        <option value="{{datosfijosparte.MyUser.id}}">{{datosfijosparte.MyUser.last_name}}, {{datosfijosparte.MyUser.first_name}}</option>
+                                        {%for usuario in usuarios %}
+                                            <option value="{{usuario.id}}"> {{usuario.last_name}}, {{usuario.first_name}}</option>
+                                        {%endfor%}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" >
+                        <div class="col-lg-6" >
+                        <div class="form-group row" style="margin-left: 10px;">
+                            <label for="turno" class="col-form-label col-lg-2 col-sm-12 ">Turno :</label>
+                            <div class="col-lg-4 col-sm-12">
+                                <select name="turno" id="turno" class="form-control">
+                                    <option value="{{datosfijosparte.Parteoperario.idNumturno}}">{{datosfijosparte.Parteoperario.turno}}</option>
+                                    {%for turno in turnos%}
+                                        <option value="{{turno.idNumturno}}">{{turno.posNumturno}}</option>
+                                    {%endfor%}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    <hr>
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col" style="margin-left:20px;">
+                            <div class="form-group row" >
+                                <h4 class="h4">Costra</h4>
+                                
+                                {%for digestor in partedigestor%}
+                                <div class="col-lg-3">
+                                    <label for="">{{digestor.Plantaequipo.nombrePlantaequipo}}</label>
+                                    <!-- NECESITO SABER SI ESTA PRENDIDO O NO -->
+                                    {%if digestor.Partediariodigestor.costraPartediariodigestor==True%}
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <input class="check" type="checkbox" name="costradigestor{{digestor.Partediariodigestor.idPlantaequipo}}" id="" style="height:19px" checked>
+                                        </div>
+                                        {%else%}
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <input class="check" type="checkbox" name="costradigestor{{digestor.Partediariodigestor.idPlantaequipo}}" id="" style="height:19px" >
+                                        </div>
+                                    {%endif%}
+                                </div>   
+                                {%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col" style="margin-left:20px;">
+                            <div class="form-group row" >
+                                <h4 class="h4">Espuma</h4>
+                                {%for digestor in partedigestor%}
+                                <div class="col-lg-3">
+                                    <label for="">{{digestor.Plantaequipo.nombrePlantaequipo}}</label>
+                                    <!-- NECESITO SABER SI ESTA PRENDIDO O NO -->
+                                    {%if digestor.Partediariodigestor.espumaPartediariodigestor==True%}
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <input class="check" type="checkbox" name="espumadigestor{{digestor.Partediariodigestor.idPlantaequipo}}" id="" style="height:19px" checked>
+                                        </div>
+                                        {%else%}
+                                        <div class="btn-group" data-toggle="buttons">
+                                            <input class="check" type="checkbox" name="espumadigestor{{digestor.Partediariodigestor.idPlantaequipo}}" id="" style="height:19px" >
+                                        </div>
+                                    {%endif%}
+                                </div>   
+                                {%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col" style="margin-left:20px;">
+                            <div class="form-group row" >
+                                <h4 class="h4">Gasoil</h4>
+                                <!-- Palas Cargadoras Litros -->
+                                
+                                {%for pala in partejcb%}
+                                <div class="col-lg-4" >
+                                    <div class="form-group row" >
+                                        <label for="fechaParteOperario" class="col-form-label col-lg-5 col-sm-12 ">{{pala.Plantaequipo.nombrePlantaequipo}}</label>
+                                        <div class="col-lg-5">
+                                            <div class="input-group">
+                                                <input type="number" required class="form-control w-100" aria-describedby="basic-addon2" name="gasoilPala{{pala.Partediariojcb.idPlantaequipo}}" value={{pala.Partediariojcb.gasoilPartediariojcb}} >
+                                                <span class="input-group-addon" id="basic-addon2">Lts</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {%endfor%}
+                                <!-- MOTORES -->
+                                
+                                {%for motor in partemotor%}
+                                <div class="col-lg-4" >
+                                    <div class="form-group row" >
+                                        <label for="fechaParteOperario" class="col-form-label col-lg-5 col-sm-12 ">{{motor.Plantaequipo.nombrePlantaequipo}}:</label>
+                                        <div class="col-lg-5">
+                                            <div class="input-group">
+                                                <input type="number" required class="form-control" aria-describedby="basic-addon2" name="motor{{motor.Partediariomotor.idPlantaequipo}}" value={{motor.Partediariomotor.gasoilPartediariomotor}}>
+                                                <span class="input-group-addon" id="basic-addon2">Lts</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {%endfor%}
+                                <!-- Palas Cargadoras Horas -->   
+                                {%for pala in partejcb%}                             
+                                <div class="col-lg-4" >
+                                    <div class="form-group row" >
+                                        <label for="fechaParteOperario" class="col-form-label col-lg-5 col-sm-12 ">{{pala.Plantaequipo.nombrePlantaequipo}} (Horas):</label>
+                                        <div class="col-lg-5">
+                                            <div class="input-group">
+                                                <input type="number" required class="form-control" aria-describedby="basic-addon2" name="horasPala{{pala.Partediariojcb.idPlantaequipo}}" value={{pala.Partediariojcb.horasPartediariojcb}}>
+                                                <span class="input-group-addon" id="basic-addon2">Hr</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <label for="Observaciones">Observaciones:</label>
+                    </div>
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <textarea name="observaciones" id="Observaciones" cols="80" rows="4" >{{datosfijosparte.Parteoperario.obsParteoperario}}</textarea>
+                    </div>
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <button type="submit" class="btn btn-success"> Guardar Cambios </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+<style>
+    .check {
+width:30px;
+height:30px;
+}
+</style>
+{% endblock %}

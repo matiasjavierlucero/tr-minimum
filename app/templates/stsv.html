@@ -1,0 +1,93 @@
+{% extends "appbuilder/base.html" %}
+
+<div class="container" style="margin-left:10px">
+    <div class="row" style="margin-left:10px">
+        <div class="col-lg-12" style="margin-left:10px">
+            {% with messages = get_flashed_messages(with_categories = true ) %} {% if messages %} {% for category, message
+            in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible" role="alert" style="height: 20px; padding: 0px;margin: 2px;">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true" >&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    {% endfor %} {% endif %}{% endwith %}
+</div>
+
+
+
+
+{% block content %}
+<div class="container">
+
+<div class="row">
+<div class="col-lg-12" style="margin-left:10px">
+    <div class="panel panel-primary ">
+        <div class="panel-heading">
+            <h4 class="panel-title">Carga de StSv</h4>
+        </div>
+        <div class="panel-body">
+            <div>
+                <form action="/confirmaCargaMasivaStsv" method="post">
+                    <div class="row " style="margin-left:10px;margin-top:10px">
+                        <div class="col-lg-4">
+                            <label for="fechastsv">Fecha:</label>
+                            <input type="date" id="fechastsv" name="fechastsv" class="form-control mb-4" required >
+                        </div>
+                        <div class="col-lg-4">
+                            <label for="usuarios">Valores obtenidos por :</label>
+                            <select name="idUsuarioM" id="idUsuarioM" class="form-control mb-4" >
+                                {%for usuario in usuarios%}
+                                <option value="{{usuario.id}}">{{usuario.first_name}}, {{usuario.last_name}}</option>
+                                {%endfor%}
+                            </select>
+                        </div>
+                        <div class="col-lg-4 text-center">
+                            <label for="">Todos los registros</label><br>
+                            <a href="/stsvview/list/"><button type="button" class="btn btn-secondary"> Ver </button></a>
+                        </div>
+                    </div>
+                    <div class="table-responsive " style="margin-top:10px; padding-left: 2.3%; ">
+                        <table class="table-sm table-bordered table-hover">
+                            <thead class="thead-inverse ">
+                                <tr>
+                                    <th class=text-center style="width: 15%;">Nombre</th>
+                                    <th class=text-center style="width: 10%;">ST</th>
+                                    <th class=text-center style="width: 10%;">SV</th>
+                                    <th class=text-center style="width: 40%;">Observaciones</th>
+                                </tr>
+                            </thead>
+                            {%for planta in plantasjoin%}
+                            <input type="text" class="d-none" name="{{planta.idPlantaequipo}}" value="{{planta.idPlantaequipo}}" style="display: none;">
+                            <tr>
+                                <td>
+                                    <p>{{planta.nombrePlantaequipo}}</p>
+                                    
+                                </td>
+                                <td><input type="number" max="10" min="1" class="form-control" placeholder="st" id="ST{{planta.idPlantaequipo}}" name="ST{{planta.idPlantaequipo}}">
+                                </td>
+                                
+                                <td><input type="number"max="10" min="1" class="form-control" placeholder="sv" id="SV{{planta.idPlantaequipo}}" name="SV{{planta.idPlantaequipo}}">
+                                </td>
+                                </td>
+                                <td><input type="text" class="form-control" placeholder="stsv Observaciones" id="Observaciones{{planta.idPlantaequipo}}"
+                                        name="Observaciones{{planta.idPlantaequipo}}"></td>
+                            </tr>
+                            {%endfor%}
+                        </table>
+                        <button type="submit" class="btn btn-primary" style="margin-left:1px;margin-top:10px">Cargar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}
+
+
+
+

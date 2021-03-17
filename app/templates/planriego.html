@@ -1,0 +1,208 @@
+{% extends "appbuilder/base.html" %}
+{% block content %}
+<div class="container"> 
+    <div class="row">
+    <div class="col-lg-12" style="margin-left:10px">
+        <div class="panel panel-primary ">
+            <div class="panel-heading" style="height:50px">
+                <div class="col-lg-10">
+                    <h4 class="panel-title">Planificación de Riego</h4>
+                </div>
+                <div class="col-lg-2">
+                </div>
+            </div>
+            <div class="panel-body">
+                <form action="/guardarplanriego" method="post">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <label for="">Desde</label>
+                        <input type="date" name="fechaInicio" id="fechaInicio" class="form-control" required onChange="verificarFechas()">
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="">Hasta</label>
+                        <input type="date" name="fechaFinal" id="fechaFinal" class="form-control" required onChange="verificarFechas()">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <h5 for="">Lote</h5>
+                        <select name="Lote" id="Lote" class="form-control">
+                          <option value="x">
+                              Seleccione un Lote
+                          </option>  
+                          {% for lote in lotes %}
+                            <option value="{{lote.idLote}}">{{lote.nombreLote}}</option>
+                          {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-2 ">
+                        <label for="" style="color:white"> .</label>
+                        <button type="button" class="btn btn-info form-control" data-toggle="modal" data-target="#crearLote">Crear Lote</button>
+                    </div>
+                </div>      
+                <br><br>  
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <h4>Solidos</h4>
+                            </div>
+                            <div class="col-lg-2">
+                                <input name="cantidad_solido" type="number" min=0 class="form-control">
+                            </div>
+                            <div class="col-lg-2">
+                                <h4>t/viaje</h4>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row ">
+                            <div class="col-lg-3">
+                                <h4>Liquidos</h4>
+                            </div>
+                            <div class="col-lg-2">
+                                <input name="cantidad_liquido" type="number" min=0 class="form-control">
+                            </div>
+                            <div class="col-lg-2">
+                                <h4>m3/viaje</h4>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <h4>Descripción</h4>
+                            </div>
+                            <div class="col-lg-8">
+                                <input type="text" class="form-control" name="descripcion">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row text-center">
+                            <div class="col">
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="row text-center">
+                            <h4>Disponibles</h4>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <table class="table">
+                                    <tr>
+                                    <td >
+                                        <th >Nitrogeno</th>
+                                        <th>Potasio</th>
+                                        <th>Fosforo</th>
+                                    </td>
+                                    </tr>
+                                    <tr >    
+                                        <th>Liquido</th>
+                                        <td>{{disponiblesliquidos.2}} kg/m3</td>
+                                        <td>{{disponiblesliquidos.0}} kg/m3</td>
+                                        <td>{{disponiblesliquidos.1}} kg/m3</td>
+                                    </tr>
+                                    <tr >    
+                                        <th>Solido</th>
+                                        <td>{{disponiblessolidos.2}} kg/t</td>
+                                        <td>{{disponiblessolidos.0}} kg/t</td>
+                                        <td>{{disponiblessolidos.1}} kg/t</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+                </form>  
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+
+    <!-- Modal Crear Lote -->
+    <div class="modal fade" id="crearLote" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#337ab7">
+                    <h4 class="modal-title" style="color:white">Crear Lote</h4>
+                </div>
+                <div class="modal-body">
+                    <br>
+                    <form action="/crearlote_riego" method="post">
+                    <div class="row">
+
+                        <div class="col-lg-2">
+                            <p>
+                                Nombre
+                            </p>
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" name="nombreLote">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <p>
+                                Ha
+                            </p>
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" name="haLote">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <p>
+                                Geo Referencia
+                            </p>
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" name="geoLote">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <p>
+                                Descipción
+                            </p>
+                        </div>
+                        <div class="col-lg-4">
+                            <input type="text" class="form-control" name="descripcionLote">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        
+    </div>
+
+    
+    <script>
+    function verificarFechas(){
+        inicio=document.getElementById('fechaInicio').value
+        fin=document.getElementById('fechaFinal').value
+
+        if (inicio=='' || fin =='' ){
+            //pass
+        }else{
+            if(inicio>fin){
+                alert('La fecha "Desde" no puede ser mayor a la fecha "Hasta", automaticamente la fecha "Desde" cambiara a la más baja')
+                console.log('La Fecha de inicio no puede ser mayor a la del final, por favor corrijala')
+                $('#fechaInicio').val(fin);
+            }
+        }
+
+    }
+    </script>
+    
+{%endblock%}

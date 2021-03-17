@@ -1,0 +1,361 @@
+<!-- {% macro menu_item(item) %}
+    <a tabindex="-1" href="{{item.get_url()}}">
+       {% if item.icon %}
+        <i class="fa fa-fw {{item.icon}}"></i>&nbsp;
+    {% endif %}
+    {{_(item.label)}}</a>
+{% endmacro %} -->
+
+{% if session["logoPlanta"] %}
+    <a class="navbar-brand-1" href="http://{{session['ENTORNO']}}:{{session['PORT']}}/plantaview/show/{{session['idPlanta']}}" >
+        <img src="/static/img/plants_logos/{{session['logoPlanta']}}" width="200" height="200" alt="logo de la planta">
+    </a>
+{% else %}
+{% endif %}
+
+
+
+
+
+
+
+<div id="accordian">
+    <ul>
+        <li>
+            <li id=primario onClick="activar(this.id)" >
+            <h3><a><i class="fa fa-lg fa-tasks" ></i>Conf. General</a></h3>
+            <ul>
+                <li id=secundario0 onClick="activarSecundario(this.id)"> 
+                    <a  >Planta</a>
+                    <ul>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/plantaview/list/"> Lista de Plantas</a></li>
+                      
+                    </ul>
+                </li>
+                <li id=secundario onClick="activarSecundario(this.id)">
+                    <a>Usuarios</a>
+                    <ul id="prueba">
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/users/list/">Lista de usuarios</a></li>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/userstatschartview/chart/">Estadísticas de usuarios</a></li>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/inactiveusers">Usuarios Inactivos</a></li>
+                       <!--  <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/roles/list/">Lista de roles</a></li>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/profesionview/list/">Profesiones</a></li> -->
+
+                    </ul>
+                </li >
+                <li id=secundario1 onClick="activarSecundario(this.id)">
+                    <a>Equipos</a>
+                    <ul>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/marcaview/list/">Marcas</a></li>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/tipoequipoview/list/">Tipo de equipo</a></li>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/superequipoview/list/">Superequipo</a></li>
+                        <!-- <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/tipoequipoview/add">Crear equipo</a></li> -->
+                    </ul>
+                </li>
+
+                        <li id=secundario11 onClick="activarSecundario(this.id)" >
+                            <a  >Sustrato</a>
+                            <ul>
+                                <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/sustratoview/list/">Lista de Sustrato</a></li>
+                               <!--  <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/unidadmedidaview/list/">Unidad de medida sustrato</a></li> -->
+                                
+                            </ul>
+                        </li>
+                    
+                </li>
+                <li id=secundario2 onClick="activarSecundario(this.id)" >
+                    <a  >Seguridad</a>
+                    <ul>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/roles/list/">Roles y permisos</a></li>
+                    </ul>
+                </li>   
+
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li id=primario1 onClick="activar(this.id)">
+            <h3><a  ><i class="fa fa-lg fa-tasks"></i>Conf. de Planta</a></h3>
+            <ul>
+                <li id=secundario3 onClick="activarSecundario(this.id)">
+                    <a >Planta</a>
+                    <ul>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/plantaview/show/{{session['idPlanta']}}">Ver Informacion</a></li>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/planusuaview/list">Usuarios de planta</a></li>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/area_planview/list/">Areas</a></li>
+                        <!-- <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/nuevacampania">Nueva Campaña</a></li>
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/cargarincrementocampania">Incremento Campaña</a></li>  -->
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/loteview/list/">Lotes</a>    
+                        <li id="terciario1" onClick="activarTerciario(this.id)">
+                            <a>Configuracion Scada</a>
+                            <ul>
+                                <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/scadaview/list/">Configuracion</a>
+                                <li id="cuarto1" onClick="activarCuarto(this.id)">
+                                    <a>Configuracion Digestores</a>
+                                    <ul>
+                                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/digestorsolidoview/list/">Solido</a>
+                                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/digestorliquidoview/list/">liquido</a>                       
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li id=secundario4 onClick="activarSecundario(this.id)">
+                    <a>Equipos</a>
+                    <ul>     
+                        <li id="terciario3" onClick="activarTerciario(this.id)">
+                            <a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/tequipos/list/">Listado de Equipos</a>
+                        </li>        
+                        <li><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/relacionequipoview/list/">Relación equipos</a></li>
+                    </ul>      
+                </li>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li id=primario2 onClick="activar(this.id)">
+            <h3><a  ><i class="fa fa-lg fa-tasks"></i>Gestión de Sustratos </a></h3>
+            <ul>
+                <li id=secundario5 onClick="activarSecundario(this.id)"><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/campaniaview/list/">Campaña</a></li>
+                <li id=secundario6 onClick="activarSecundario(this.id)"><a href="/comprascampania">Compras</a></li>
+                <li id=secundario7 onClick="activarSecundario(this.id)"><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/cargamermaview/list/">Efluentes</a></li>
+                <li id=secundario8 onClick="activarSecundario(this.id)"><a href="{{ url_for('popupMerma')}}">Proyección consumo</a></li>
+                <li id=secundario9 onClick="activarSecundario(this.id)"><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/programarcargaview/add">Programar carga</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li id=primario3 onClick="activar(this.id)">
+            <h3><a  ><i class="fa fa-lg fa-tasks"></i>Análisis</a></h3>
+            <ul>
+                <li id=secundario10 onClick="activarSecundario(this.id)"><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/analisistrazaview/list/">Análisis de traza</a></li>
+                <li id=secundario11 onClick="activarSecundario(this.id)"><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/analisisquimicoview/list/">Análisis Sólido/Líquido</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li id=primario4 onClick="activar(this.id)">
+            <h3><a  ><i class="fa fa-lg fa-tasks"></i>Digestores</a></h3>
+            <ul>
+                <li id=secundario13 onClick="activarSecundario(this.id)"><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/fostacview/list/">FOS/TAC</a></li>
+                <li id=secundario14 onClick="activarSecundario(this.id)"><a href="http://{{session['ENTORNO']}}:{{session['PORT']}}/stsvview/list/">ST SV</a></li>
+                <li id=secundario15 onClick="activarSecundario(this.id)"><a href="{{ url_for('popupMotoresdigestores')}}">Monitoreo Digestor</a></li>
+                <li id=secundario16 onClick="activarSecundario(this.id)"><a href="{{ url_for('popupInca')}}">Inca</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li id=primario5 onClick="activar(this.id)">
+            <h3><a  ><i class="fa fa-lg fa-tasks"></i>Cargar Planilla</a></h3>
+            <ul>
+                <li><a id=secundario17 onClick="activarSecundario(this.id)" href="http://{{session['ENTORNO']}}:{{session['PORT']}}/parteoperarioview/add">Cargar parte diario Planta</a></li>
+                <li><a id=secundario99 onClick="activarSecundario(this.id)" href="http://{{session['ENTORNO']}}:{{session['PORT']}}/parteencargadoview/list/">Parte diario Encargado</a></li>
+                <li><a id=secundario18 onClick="activarSecundario(this.id)" href="http://{{session['ENTORNO']}}:{{session['PORT']}}/partediarioriegoview/list/">Cargar parte diario Regador</a></li>
+                <li><a id=secundario19 onClick="activarSecundario(this.id)" href="http://{{session['ENTORNO']}}:{{session['PORT']}}/fostacview/add">Cargar FOS/TAC</a></li>
+                <li><a id=secundario20 onClick="activarSecundario(this.id)" href="#">Cargar generación isla</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li id=primario6 onClick="activar(this.id)">
+            <h3><a  ><i class="fa fa-lg fa-tasks"></i>Planta</a></h3>
+            <ul>
+                <li><a id=secundario21 onClick="activarSecundario(this.id)" href="http://{{session['ENTORNO']}}:{{session['PORT']}}/parteoperarioview/list/">Ver Parte diario Planta</a></li>
+                <li><a id=secundario22 onClick="activarSecundario(this.id)" href="#">Ver carga de sustrato</a></li>
+                <li><a id=secundario23 onClick="activarSecundario(this.id)" href="/planriegoview/list">Ver tareas de riego</a></li>
+                <li><a id=secundario24 onClick="activarSecundario(this.id)" href="{{url_for('listado_parte_riego')}}">Ver partes diarios Regado</a></li>
+                <li><a id=secundario25 onClick="activarSecundario(this.id)" href="http://{{session['ENTORNO']}}:{{session['PORT']}}/parteencargadoview/list/">Parte diario Encargado</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li id=primario7 onClick="activar(this.id)">
+            <h3><a  ><i class="fa fa-lg fa-tasks"></i>Generación</a></h3>
+            <ul>
+                <li><a id=secundario26 onClick="activarSecundario(this.id)" href="#">Generación biogas</a></li>
+                <li><a id=secundario27 onClick="activarSecundario(this.id)" href="#">Seguimiento Motores</a></li>
+                <li><a id=secundario28 onClick="activarSecundario(this.id)" href="#">Generación en isla</a></li>
+            </ul>
+        </li>
+    </ul>
+    <ul>
+        <li id=primario8 onClick="activar(this.id)">
+            <h3><a  ><i class="fa fa-lg fa-tasks"></i>Vista</a></h3>
+            <ul>
+                <li><a id=secundario29 onClick="activarSecundario(this.id)" href="{{ url_for('popupMotores')}}">Estado motores</a></li>
+            </ul>
+        </li>
+    </ul>
+
+
+</div>
+<script>
+
+    idLocalStorage=localStorage.getItem("id")  //Tomo los ID principal
+    idSecundarioLocalStorage=localStorage.getItem("idSecundario") //Tomo Id Secundario
+    idTerciarioLocalStorage=localStorage.getItem("idTerciario") //Tomo Id Secundario
+    idCuartoLocalStorage=localStorage.getItem("idCuarto")
+    if (idLocalStorage != ''){
+        $("#"+idLocalStorage).addClass('active')
+        localStorage.clear()
+    }else{
+        
+    }
+
+    
+    if (idLocalStorage != ''){
+        $("#"+idSecundarioLocalStorage).addClass('active')
+        localStorage.clear()
+    }else{
+        
+    }
+    if (idLocalStorage != ''){
+        $("#"+idTerciarioLocalStorage).addClass('active')
+        localStorage.clear()
+    }else{
+        
+    }
+    if (idLocalStorage != ''){
+        $("#"+idCuartoLocalStorage).addClass('active')
+        localStorage.clear()
+    }else{
+        
+    }
+    
+    
+    function activar(id){
+       localStorage.setItem("id",id)
+    }
+
+    function activarSecundario(id){
+       localStorage.setItem("idSecundario",id)
+    }
+    function activarTerciario(id){
+        localStorage.setItem("idTerciario",id)
+
+    }
+
+    function activarCuarto(id){
+        localStorage.setItem("idCuarto",id)
+
+    }
+
+
+</script>
+
+
+
+
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+
+
+    #accordian {
+        background: #004050;
+        width: 250px;
+        margin: 0px auto 0 auto;
+        color: white;
+        box-shadow: 0 5px 15px 1px rgba(0, 0, 0, 0.6), 0 0 200px 1px rgba(255, 255, 255, 0.5);
+    }
+
+    #accordian h3 {
+        background: #003040;
+        background: linear-gradient(#003040, #002535);
+    }
+
+    #accordian h3 a {
+        padding: 0 10px;
+        font-size: 12px;
+        line-height: 34px;
+        display: block;
+        color: white;
+        text-decoration: none;
+    }
+
+    #accordian h3:hover {
+        text-shadow: 0 0 1px rgba(255, 255, 255, 0.7);
+    }
+
+    i {
+        margin-right: 10px;
+    }
+
+    #accordian li {
+        list-style-type: none;
+    }
+
+    #accordian ul ul li a,
+    #accordian h4 {
+        color: white;
+        text-decoration: none;
+        font-size: 11px;
+        line-height: 27px;
+        display: block;
+        padding: 0 15px;
+        transition: all 0.15s;
+        position: relative;
+    }
+
+    #accordian ul ul li a:hover {
+        background: #003545;
+        border-left: 5px solid lightgreen;
+    }
+
+    #accordian ul ul {
+        display: none;
+    }
+
+    #accordian li.active>ul {
+        display: block;
+    }
+
+    #accordian ul ul ul {
+        margin-left: 15px;
+        border-left: 1px dotted rgba(0, 0, 0, 0.5);
+    }
+
+    #accordian a:not(:only-child):after {
+        content: "\f104";
+        font-family: fontawesome;
+        position: absolute;
+        right: 10px;
+        top: 0;
+        font-size: 14px;
+    }
+
+    #accordian .active>a:not(:only-child):after {
+        content: "\f107";
+    }
+    
+</style>
+
+<script>
+    $(document).ready(function() {
+     $("#accordian a").click(function() {
+         var link = $(this);
+         let closest_ul = link.closest("ul");
+         let parallel_active_links = closest_ul.find(".active")
+         let closest_li = link.closest("li");
+         let link_status = closest_li.hasClass("active");
+         let count = 0;
+         closest_ul.find("ul").slideUp(function() {
+             if (++count == closest_ul.find("ul").length)
+                 parallel_active_links.removeClass("active");
+         });
+ 
+         if (!link_status) {
+             closest_li.children("ul").slideDown();
+             closest_li.addClass("active");
+         }
+     })
+ 
+     $(".selected").parent().slideDown();
+     
+ });
+</script>

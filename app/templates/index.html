@@ -1,0 +1,14 @@
+{% extends "my_index.html" %}
+{% block content %}
+    <!-- Verifico si existe la session y lo redirecciono a la ruta que quiera, puedo trabajar con cualquier elemento de la session -->
+    {% if session['_fresh']==True %}
+        <script>
+            window.location.href=('/inicio')
+        </script>
+
+    {%else %}
+        <script>
+            window.location.href=('/login/')
+        </script>
+    {% endif %} 
+{% endblock %}
